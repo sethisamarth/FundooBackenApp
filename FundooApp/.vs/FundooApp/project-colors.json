@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b50fa7c9-a08c-45ff-af69-369fd9e528d0": {
+      "ProjectGuid": "b50fa7c9-a08c-45ff-af69-369fd9e528d0",
+      "DisplayName": "FundooApp",
+      "ColorIndex": 0
+    },
+    "b2ad0473-cd23-46ae-b01b-83dd156cacee": {
+      "ProjectGuid": "b2ad0473-cd23-46ae-b01b-83dd156cacee",
+      "DisplayName": "BusinessLayer",
+      "ColorIndex": 1
+    },
+    "6e528323-62c3-4154-8f02-7b0863fc87bd": {
+      "ProjectGuid": "6e528323-62c3-4154-8f02-7b0863fc87bd",
+      "DisplayName": "CommonLayer",
+      "ColorIndex": 2
+    },
+    "cb0fae4a-2703-40e2-b3fa-3ff5b9781d55": {
+      "ProjectGuid": "cb0fae4a-2703-40e2-b3fa-3ff5b9781d55",
+      "DisplayName": "RespositoryLayer",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}
