@@ -16,5 +16,6 @@ namespace RespositoryLayer.Context
         {
             get; set;
         }
+        public DbSet<Notes> NotesTable { get; set; }
     }
 }

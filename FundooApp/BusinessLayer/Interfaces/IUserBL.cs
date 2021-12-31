@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using FundooApp.Controllers.ResponseModel;
 using RespositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace BusinessLayer.Interfaces
     public interface IUserBL
     {
         bool Registration(UserRegistration user);
-        bool Login(UserLogin user1);
+        LoginResponse UserLogin(UserLogin user1);
         IEnumerable<User> GetAlldata();
     }
 }

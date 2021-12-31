@@ -42,6 +42,10 @@ namespace RespositoryLayer.Entity
         [DataType(DataType.DateTime)]
         public DateTime? Modifiedat { get; set; }
 
+        public ICollection<Notes> Notes { get; set; }
+
+
+
 
 
     }

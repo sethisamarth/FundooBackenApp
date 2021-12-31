@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
+using FundooApp.Controllers.ResponseModel;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
 using System;
@@ -30,12 +31,11 @@ namespace BusinessLayer.Services
         {
             return this.userRL.GetAlldata();
         }
-        public bool Login(UserLogin user1)
+        public LoginResponse UserLogin(UserLogin user1)
         {
             try
             {
-                return this.userRL.GetLogin(user1);
-
+                return this.userRL.UserLogin(user1);
             }
             catch (Exception e)
             {

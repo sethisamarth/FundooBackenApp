@@ -1,10 +1,14 @@
 ﻿using CommonLayer.Model;
+using FundooApp.Controllers.ResponseModel;
+using Microsoft.IdentityModel.Tokens;
 using RespositoryLayer.Context;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace RespositoryLayer.Services
@@ -24,7 +28,7 @@ namespace RespositoryLayer.Services
                 newUser.FirstName = user.FirstName;
                 newUser.LastName = user.LastName;
                 newUser.EmailId = user.EmailId;
-                newUser.Password = user.Password;
+                newUser.Password = encryptpass(user.Password);
                 newUser.Createat = DateTime.Now;
 
                 this.context.Users.Add(newUser);
@@ -49,25 +53,68 @@ namespace RespositoryLayer.Services
         {
             return context.Users.ToList();
         }
-        public bool GetLogin(UserLogin user1)
+        public LoginResponse UserLogin(UserLogin user1)
         {
             try
             {
-                var validateLogin = this.context.Users.Where(x => x.EmailId == user1.EmailId && x.Password == user1.Password).FirstOrDefault();
-
-                if (validateLogin == null)
+              //  var existingLogin = this.context.Users.Where(x => x.EmailId == user1.EmailId && x.Password == user1.Password).FirstOrDefault();
+                User existingLogin = this.context.Users.Where(X => X.EmailId == user1.EmailId).FirstOrDefault();
+                if (Decryptpass(existingLogin.Password) == user1.Password)
                 {
-                    return false;
+                    LoginResponse login = new LoginResponse();
+                    string token;
+                    token = GenerateJWTToken(existingLogin.EmailId);
+                    login.Id = existingLogin.Id;
+                    login.FirstName = existingLogin.FirstName;
+                    login.LastName = existingLogin.LastName;
+                    login.EmailId = existingLogin.EmailId;
+                    login.Createat = existingLogin.Createat;
+                    login.Modifiedat = existingLogin.Modifiedat;
+                    login.token = token;
+                    return login;
                 }
                 else
                 {
-                    return true;
+                    return null;
                 }
             }
             catch (Exception e)
-            {
+            { 
                 throw;
             }
+        }
+        private string GenerateJWTToken(string EmailId)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("samarth123456789123456789"));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[] {
+                new Claim("EmailId",EmailId)
+            };
+
+            var token = new JwtSecurityToken("Smith", EmailId, claims,
+             expires: DateTime.Now.AddMinutes(5),
+             signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        public string encryptpass(string password)
+        {
+            string msg = "";
+            byte[] encode = new byte[password.Length];
+            encode = Encoding.UTF8.GetBytes(password);
+            msg = Convert.ToBase64String(encode);
+            return msg;
+        }
+        private string Decryptpass(string encryptpwd)
+        {
+            string decryptpwd = string.Empty;
+            UTF8Encoding encodepwd = new UTF8Encoding();
+            Decoder Decode = encodepwd.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encryptpwd);
+            int charCount = Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            decryptpwd = new String(decoded_char);
+            return decryptpwd;
         }
     }
 }

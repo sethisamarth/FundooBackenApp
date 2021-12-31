@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
+using FundooApp.Controllers.ResponseModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -58,14 +59,12 @@ namespace FundooApp.Controllers
         {
             try
             {
-                if (this.userBL.Login(user1))
+                LoginResponse result = this.userBL.UserLogin(user1);
+                if (result.EmailId != null)
                 {
-                    return this.Ok(new { Success = true, message = "Login Successful" });
+                    return this.Ok(new { Success = true, message = "Login Successful", data = result });
                 }
-                else
-                {
-                    return this.BadRequest(new { Success = false, message = "Login unsuccessful" });
-                }
+                return this.BadRequest(new { Success = false, message = "Login unsuccessful" });
             }
             catch (Exception e)
             {
