@@ -1,5 +1,6 @@
 ﻿using CommonLayer.Model;
 using FundooApp.Controllers.ResponseModel;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RespositoryLayer.Context;
 using RespositoryLayer.Entity;
@@ -16,10 +17,13 @@ namespace RespositoryLayer.Services
     public class UserRL : IUserRL
     {
         FundooContext context;
-        public UserRL(FundooContext context)
+        IConfiguration _config;
+        public UserRL(FundooContext context, IConfiguration config)
         {
             this.context = context;
+            _config = config;
         }
+       
         public bool Registration(UserRegistration user)
         {
             try
@@ -85,15 +89,20 @@ namespace RespositoryLayer.Services
         }
         private string GenerateJWTToken(string EmailId)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("samarth123456789123456789"));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
                 new Claim("EmailId",EmailId)
             };
 
-            var token = new JwtSecurityToken("Smith", EmailId, claims,
-             expires: DateTime.Now.AddMinutes(5),
-             signingCredentials: credentials);
+            //var token = new JwtSecurityToken(null, null, claims,
+            // expires: DateTime.Now.AddMinutes(5),
+            // signingCredentials: credentials);
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+              _config["Jwt:Issuer"],
+              claims,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
         public string encryptpass(string password)
