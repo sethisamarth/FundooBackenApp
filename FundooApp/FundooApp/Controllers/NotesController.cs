@@ -94,5 +94,24 @@ namespace FundooApp.Controllers
             }
 
         }
+        [HttpPut]
+        [Route("pinOrUnpin")]
+        public IActionResult PinOrUnpinNote(long noteId)
+        {
+            try
+            {
+                var result = this.notesBL.PinOrUnpin(noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { Success = true, message = "pinned successfully " });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

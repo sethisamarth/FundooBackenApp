@@ -105,5 +105,34 @@ namespace RespositoryLayer.Services
             }
         }
 
+        //Pin and Unpin
+        public string PinOrUnpin(long noteId)
+        {
+            try
+            {
+                var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes.IsPin == false)
+                {
+                    notes.IsPin = true;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    string message = "Note is getting pin";
+                    return message;
+                }
+                if (notes.IsPin == true)
+                {
+                    notes.IsPin = false;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    string message = "Note Unpinned";
+                    return message;
+                }
+                return "Unable to Pin or Unpin notes";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

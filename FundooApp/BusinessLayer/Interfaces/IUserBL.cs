@@ -12,5 +12,7 @@ namespace BusinessLayer.Interfaces
         bool Registration(UserRegistration user);
         LoginResponse UserLogin(UserLogin user1);
         IEnumerable<User> GetAlldata();
+        public bool SendResetLink(string email);
+
     }
 }

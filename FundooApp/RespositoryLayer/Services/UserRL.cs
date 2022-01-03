@@ -125,5 +125,16 @@ namespace RespositoryLayer.Services
             decryptpwd = new String(decoded_char);
             return decryptpwd;
         }
+        public bool SendResetLink(string email)
+        {
+            User existingLogin = this.context.Users.Where(X => X.EmailId == email).FirstOrDefault();
+            if (existingLogin.EmailId != null)
+            {
+                var token =GenerateJWTToken(existingLogin.EmailId);
+                new MsmqOperation().Sender(token);
+                return true;
+            }
+            return false;
+        }
     }
 }

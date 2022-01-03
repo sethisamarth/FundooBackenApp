@@ -64,6 +64,18 @@ namespace BusinessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        public string PinOrUnpin(long noteId)
+        {
+            try
+            {
+                string result = this.notesRL.PinOrUnpin(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
         

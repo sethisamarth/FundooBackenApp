@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "oSqt1pvzw9RAWh5V9eKlY9zyDso/QrePaAtBTdkYSGae2DDTa0vf7BqntnR8lXx5gfl0y81TC4vE3+X5ajQs3w==",
+  "dgSpecHash": "SaevI0saIPQ1fDmbdk7M6ov9bAg4GkqPXrxGNSdHVzGELgsTevE5wtnhBHD+RWRWMFp20q/8Ky2RcEorwvWfEw==",
   "success": true,
   "projectFilePath": "C:\\Users\\sethi\\Desktop\\FundoProgram\\FundooApp\\CommonLayer\\CommonLayer.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\sethi\\.nuget\\packages\\experimental.system.messaging\\1.1.0\\experimental.system.messaging.1.1.0.nupkg.sha512"
+  ],
   "logs": []
 }

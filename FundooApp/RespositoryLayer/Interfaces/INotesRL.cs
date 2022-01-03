@@ -12,5 +12,6 @@ namespace RespositoryLayer.Interfaces
         IEnumerable<Notes> GetAllNotes();
         public bool RemoveNote(long noteId);
        public string UpdateNotes(Notes notes);
+        public string PinOrUnpin(long noteId);
     }
 }
