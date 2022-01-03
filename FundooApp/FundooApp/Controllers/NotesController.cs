@@ -55,20 +55,44 @@ namespace FundooApp.Controllers
                 throw;
             }
         }
-        [HttpDelete("/{Id}")]
-        public IActionResult DeleteNote([FromRoute] long NotesId)
+        [HttpPut]
+        [Route("updateNotes")]
+        public IActionResult UpdateNotes([FromBody] Notes notes)
         {
             try
             {
-                notesBL.DeleteNote(NotesId);
-                return Ok(new { Success = true, message = "Notes deleted Successful" });
+                var result = this.notesBL.UpdateNotes(notes);
+                if (result.Equals("UPDATE SUCCESSFULL"))
+                {
+                    return this.Ok(new { Success = true, message = "Note Updated successfully " });
+                }
+
+                return this.BadRequest(new { Status = false, Message = "Error while updating notes" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return this.BadRequest(new { Success = false, message = e.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        [HttpDelete]
+        [Route("{noteId}")]
+        public IActionResult DeleteNotes(long noteId)
+        {
+            try
+            {
+                var result = this.notesBL.RemoveNote(noteId);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new { Success = true, message = "Note Removed successfully " });
+                }
 
+                return this.BadRequest(new { Status = false, Message = "Unable to delete note : Enter valid Id" });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+
+        }
     }
-
 }

@@ -10,6 +10,7 @@ namespace BusinessLayer.Interfaces
     {
         public bool CreateNote(NotesModel notes);
         IEnumerable<Notes> GetAllNotes();
-        void DeleteNote(long notesId);
+        public bool RemoveNote(long noteId);
+        public string UpdateNotes(Notes notes);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Model;
+using Microsoft.EntityFrameworkCore;
 using RespositoryLayer.Context;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
@@ -51,14 +52,6 @@ namespace RespositoryLayer.Services
             }
         }
 
-        public void DeleteNote(object noteId)
-        {
-            var notes = new Notes() { Id = (long)noteId };
-            this.context.NotesTable.Remove(notes);
-
-            context.SaveChanges();
-        }
-
         public IEnumerable<Notes> GetAllNotes()
         {
             try
@@ -70,5 +63,47 @@ namespace RespositoryLayer.Services
                 throw;
             }
         }
+        public bool RemoveNote(long noteId)
+        {
+            try
+            {
+                if (noteId > 0)
+                {
+                    var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
+                    if (notes != null)
+                    {
+                        if (notes.IsTrash == true)
+                        {
+                            this.context.NotesTable.Remove(notes);
+                            this.context.SaveChangesAsync();
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UpdateNotes(Notes notes)
+        {
+            try
+            {
+                if (notes.NotesId != 0)
+                {
+                    this.context.Entry(notes).State = EntityState.Modified;
+                    this.context.SaveChanges();
+                    return "UPDATE SUCCESSFULL";
+                }
+                return "Updation Failed";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

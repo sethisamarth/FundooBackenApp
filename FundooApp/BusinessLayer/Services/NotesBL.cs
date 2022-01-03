@@ -28,19 +28,6 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
-        public void DeleteNote(long notesId)
-        {
-            try
-            {
-                this.notesRL.DeleteNote(notesId);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
         public IEnumerable<Notes> GetAllNotes()
         {
             try
@@ -50,6 +37,31 @@ namespace BusinessLayer.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public bool RemoveNote(long noteId)
+        {
+            try
+            {
+                bool result = this.notesRL.RemoveNote(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UpdateNotes(Notes notes)
+        {
+            try
+            {
+                string result = this.notesRL.UpdateNotes(notes);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

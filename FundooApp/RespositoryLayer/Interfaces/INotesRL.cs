@@ -10,6 +10,7 @@ namespace RespositoryLayer.Interfaces
     {
         public bool CreateNote(NotesModel notes);
         IEnumerable<Notes> GetAllNotes();
-        void DeleteNote(object noteId);
+        public bool RemoveNote(long noteId);
+       public string UpdateNotes(Notes notes);
     }
 }
