@@ -9,9 +9,10 @@ namespace RespositoryLayer.Interfaces
 {
     public interface IUserRL
     {
-        bool Registration(UserRegistration user);
-        LoginResponse UserLogin(UserLogin user1);
+       public bool Registration(UserRegistration user);
+       public LoginResponse UserLogin(UserLogin user1);
         IEnumerable<User> GetAlldata();
-        bool SendResetLink(string email);
+       public bool SendResetLink(string email);
+       public bool ResetPassword(ResetPassword resetPassword);
     }
 }

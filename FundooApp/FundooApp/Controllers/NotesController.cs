@@ -113,5 +113,44 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("archieveOrUnarchieve")]
+        public IActionResult ArchieveOrUnarchieve(long noteId)
+        {
+            try
+            {
+                var result = this.notesBL.ArchieveOrUnArchieve(noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { Success = true, message = "Archieved successfully " });
+
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPut]
+        [Route("addColor")]
+        public IActionResult AddColor(long noteId, string color)
+        {
+            try
+            {
+                var result = this.notesBL.AddColor(noteId, color);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new { Status = true, Message = "Add Colour Sucessfully", Data = color });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

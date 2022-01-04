@@ -76,6 +76,34 @@ namespace BusinessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public string ArchieveOrUnArchieve(long noteId)
+        {
+
+            try
+            {
+                string result = this.notesRL.ArchieveOrUnarchieve(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool AddColor(long noteId, string color)
+        {
+
+            try
+            {
+                bool result = this.notesRL.AddColour(noteId, color);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
         

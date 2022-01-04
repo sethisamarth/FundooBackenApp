@@ -95,5 +95,23 @@ namespace FundooApp.Controllers
                 return this.BadRequest(new {success=false,message=e.Message});
             }
         }
+        [HttpPut]
+        [Route("resetPassword")]
+        public IActionResult ResetPasswordEmployee([FromBody] ResetPassword resetPassword)
+        {
+            try
+            {
+                var result = this.userBL.ResetPassword(resetPassword);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new { Status = true, Message = "Reset Password  Sucessfully", Data = resetPassword });
+                }
+                return this.BadRequest(new { Status = false, Message = "Failed to reset password:Email not exist in database or password is not matched" });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

@@ -134,5 +134,52 @@ namespace RespositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        public string ArchieveOrUnarchieve(long noteId)
+        {
+            try
+            {
+                var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes.IsArchive == false)
+                {
+                    notes.IsArchive = true;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    string message = "Note is Archieve";
+                    return message;
+                }
+                if (notes.IsArchive == true)
+                {
+                    notes.IsArchive = false;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    string message = "Note UnArchieve";
+                    return message;
+                }
+                return "Unable to Archieve or UnArchieve notes";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public bool AddColour(long noteId, string color)
+        {
+            try
+            {
+                var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    notes.Colour = color;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

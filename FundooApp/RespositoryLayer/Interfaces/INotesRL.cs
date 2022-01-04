@@ -11,7 +11,9 @@ namespace RespositoryLayer.Interfaces
         public bool CreateNote(NotesModel notes);
         IEnumerable<Notes> GetAllNotes();
         public bool RemoveNote(long noteId);
-       public string UpdateNotes(Notes notes);
+        public string UpdateNotes(Notes notes);
         public string PinOrUnpin(long noteId);
+        public string ArchieveOrUnarchieve(long noteId);
+        public bool AddColour(long noteId, string color);
     }
 }

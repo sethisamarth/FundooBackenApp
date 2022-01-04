@@ -13,6 +13,7 @@ namespace BusinessLayer.Interfaces
         public bool RemoveNote(long noteId);
         public string UpdateNotes(Notes notes);
         public string PinOrUnpin(long noteId);
-
+        public string ArchieveOrUnArchieve(long noteId);
+        public bool AddColor(long noteId, string color);
     }
 }
