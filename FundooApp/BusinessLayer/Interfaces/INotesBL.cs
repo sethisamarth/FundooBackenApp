@@ -15,5 +15,7 @@ namespace BusinessLayer.Interfaces
         public string PinOrUnpin(long noteId);
         public string ArchieveOrUnArchieve(long noteId);
         public bool AddColor(long noteId, string color);
+        public string IsTrash(long noteId);
+        IEnumerable<NotesModel> RetrieveTrashNotes();
     }
 }

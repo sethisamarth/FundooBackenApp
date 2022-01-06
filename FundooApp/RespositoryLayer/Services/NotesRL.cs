@@ -181,5 +181,55 @@ namespace RespositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        public string IsTrash(long noteId)
+        {
+            try
+            {
+                var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes.IsTrash == false)
+                {
+                    notes.IsTrash = true;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    string message = "Notes Is Trashed";
+                    return message;
+                }
+                if (notes.IsTrash == true)
+                {
+                    notes.IsTrash = false;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    string message = "Note Restored";
+                    return message;
+                }
+
+                return "Unable to Trash or Restored notes"; ;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public IEnumerable<NotesModel> RetrieveTrashNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result;
+                IEnumerable<NotesModel> notes = (IEnumerable<NotesModel>)this.context.NotesTable.Where(x => x.IsTrash == true).ToList();
+                if (notes != null)
+                {
+                    result = notes;
+                }
+                else
+                {
+                    result = null;
+                }
+                return result; 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

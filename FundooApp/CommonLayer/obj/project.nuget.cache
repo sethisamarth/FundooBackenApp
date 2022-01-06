@@ -1,11 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "d7eRIbuYsG9WaUXk/R9tJVtxWk+o+pJXnyV/cCjK8Qe0LPHLo7veYrmANo2AVVLBsl/Ywc7+gHuHdAPZ0zAbDA==",
+  "dgSpecHash": "duE86hnrlE2TDeXm7QZ488YIT3BKUedZiTGFumTir4VcWpNar6QuxrzqRgJkqdYIO51OCDTytQEBMKxqGzG3Eg==",
   "success": true,
   "projectFilePath": "C:\\Users\\sethi\\Desktop\\FundoProgram\\FundooApp\\CommonLayer\\CommonLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\sethi\\.nuget\\packages\\experimental.system.messaging\\1.1.0\\experimental.system.messaging.1.1.0.nupkg.sha512",
     "C:\\Users\\sethi\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\sethi\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\sethi\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.15.0\\microsoft.identitymodel.jsonwebtokens.6.15.0.nupkg.sha512",
+    "C:\\Users\\sethi\\.nuget\\packages\\microsoft.identitymodel.logging\\6.15.0\\microsoft.identitymodel.logging.6.15.0.nupkg.sha512",
+    "C:\\Users\\sethi\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.15.0\\microsoft.identitymodel.tokens.6.15.0.nupkg.sha512",
+    "C:\\Users\\sethi\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.15.0\\system.identitymodel.tokens.jwt.6.15.0.nupkg.sha512",
+    "C:\\Users\\sethi\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
     "C:\\Users\\sethi\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512"
   ],
   "logs": []

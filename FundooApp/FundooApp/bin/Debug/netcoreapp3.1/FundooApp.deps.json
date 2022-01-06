@@ -1363,7 +1363,8 @@
       "CommonLayer/1.0.0": {
         "dependencies": {
           "Experimental.System.Messaging": "1.1.0",
-          "Microsoft.AspNetCore.Html.Abstractions": "2.2.0"
+          "Microsoft.AspNetCore.Html.Abstractions": "2.2.0",
+          "System.IdentityModel.Tokens.Jwt": "6.15.0"
         },
         "runtime": {
           "CommonLayer.dll": {}

@@ -15,5 +15,7 @@ namespace RespositoryLayer.Interfaces
         public string PinOrUnpin(long noteId);
         public string ArchieveOrUnarchieve(long noteId);
         public bool AddColour(long noteId, string color);
+        public string IsTrash(long noteId);
+        IEnumerable<NotesModel> RetrieveTrashNotes();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
 using FundooApp.Controllers.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -96,6 +97,7 @@ namespace FundooApp.Controllers
             }
         }
         [HttpPut]
+        [Authorize]
         [Route("resetPassword")]
         public IActionResult ResetPasswordEmployee([FromBody] ResetPassword resetPassword)
         {

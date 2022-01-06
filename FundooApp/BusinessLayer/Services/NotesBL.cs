@@ -104,6 +104,32 @@ namespace BusinessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public string IsTrash(long noteId)
+        {
+            try
+            {
+                string result = this.notesRL.IsTrash(noteId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<NotesModel> RetrieveTrashNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result = this.notesRL.RetrieveTrashNotes();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
         

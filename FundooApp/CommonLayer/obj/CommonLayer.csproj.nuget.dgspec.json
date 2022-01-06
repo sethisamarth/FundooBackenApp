@@ -51,6 +51,10 @@
             "Microsoft.AspNetCore.Html.Abstractions": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.15.0, )"
             }
           },
           "imports": [

@@ -152,5 +152,43 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("trashOrUntrash")]
+        public IActionResult TrashOrUntrash(long noteId)
+        {
+            try
+            {
+                var result = this.notesBL.IsTrash(noteId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        [Route("retrieveAllTrashNotes")]
+        public IActionResult RetrieveAllTrashNotes()
+        {
+            try
+            {
+                IEnumerable<NotesModel> result = this.notesBL.RetrieveTrashNotes();
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieve Notes Successfully", Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = "Failed to Retrieve Notes" });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
