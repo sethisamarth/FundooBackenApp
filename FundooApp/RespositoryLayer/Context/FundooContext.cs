@@ -11,11 +11,12 @@ namespace RespositoryLayer.Context
         public FundooContext(DbContextOptions options) : base(options)
         {
 
-        }
+        }  
         public DbSet<User> Users
         {
             get; set;
         }
         public DbSet<Notes> NotesTable { get; set; }
+        public DbSet<Collaborator> CollaboratorTable { get; set; }
     }
 }

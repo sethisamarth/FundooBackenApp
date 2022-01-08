@@ -17,5 +17,6 @@ namespace RespositoryLayer.Interfaces
         public bool AddColour(long noteId, string color);
         public string IsTrash(long noteId);
         IEnumerable<NotesModel> RetrieveTrashNotes();
+        bool AddReminder(long notesId, string reminder);
     }
 }

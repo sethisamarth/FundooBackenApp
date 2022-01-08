@@ -9,7 +9,7 @@ namespace CommonLayer.Model
         public long Id { get; set; }    
         public string Title { get; set; }
         public string Message { get; set; }
-        public DateTime Remainder { get; set; }
+        public string Reminder { get; set; }
         public string Colour { get; set; }
         public string Image { get; set; }
         public bool IsArchive { get; set; }

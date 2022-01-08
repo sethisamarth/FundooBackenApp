@@ -25,7 +25,7 @@ namespace RespositoryLayer.Services
                 newNotes.Id = notes.Id;
                 newNotes.Title = notes.Title;
                 newNotes.Message = notes.Message;
-                newNotes.Remainder = notes.Remainder;
+                newNotes.Reminder = notes.Reminder;
                 newNotes.Colour = notes.Colour;
                 newNotes.Image = notes.Image;
                 newNotes.IsArchive = notes.IsArchive;
@@ -45,7 +45,6 @@ namespace RespositoryLayer.Services
                     return false;
                 }
             }
-
             catch (Exception e)
             {
                 throw e;
@@ -72,12 +71,9 @@ namespace RespositoryLayer.Services
                     var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
                     if (notes != null)
                     {
-                        if (notes.IsTrash == true)
-                        {
                             this.context.NotesTable.Remove(notes);
                             this.context.SaveChangesAsync();
                             return true;
-                        }
                     }
                 }
                 return false;
@@ -225,6 +221,26 @@ namespace RespositoryLayer.Services
                     result = null;
                 }
                 return result; 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool AddReminder(long notesId, string reminder)
+        {
+            try
+            {
+                var notes = this.context.NotesTable.Where(x => x.NotesId == notesId).FirstOrDefault();
+                if (notes != null)
+                {
+                    notes.Reminder = reminder;
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return true;
+                }
+                return false ;
             }
             catch (Exception ex)
             {

@@ -12,10 +12,8 @@ namespace BusinessLayer.Services
     {
         INotesRL notesRL;
         public NotesBL(INotesRL notesRL)
-
         {
             this.notesRL = notesRL;
-
         }
         public bool CreateNote(NotesModel notes)
         {
@@ -123,6 +121,19 @@ namespace BusinessLayer.Services
             try
             {
                 IEnumerable<NotesModel> result = this.notesRL.RetrieveTrashNotes();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool AddReminder(long notesId, string reminder)
+        {
+            try
+            {
+                bool result = this.notesRL.AddReminder(notesId, reminder);
                 return result;
             }
             catch (Exception ex)

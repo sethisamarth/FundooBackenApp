@@ -17,5 +17,6 @@ namespace BusinessLayer.Interfaces
         public bool AddColor(long noteId, string color);
         public string IsTrash(long noteId);
         IEnumerable<NotesModel> RetrieveTrashNotes();
+        bool AddReminder(long notesId, string reminder);
     }
 }

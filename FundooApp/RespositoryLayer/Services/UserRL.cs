@@ -62,7 +62,6 @@ namespace RespositoryLayer.Services
         {
             try
             {
-              //  var existingLogin = this.context.Users.Where(x => x.EmailId == user1.EmailId && x.Password == user1.Password).FirstOrDefault();
                 User existingLogin = this.context.Users.Where(X => X.EmailId == user1.EmailId).FirstOrDefault();
                 if (Decryptpass(existingLogin.Password) == user1.Password)
                 {
@@ -102,7 +101,7 @@ namespace RespositoryLayer.Services
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               claims,
-              expires: DateTime.Now.AddMinutes(120),
+              expires: DateTime.Now.AddMinutes(15),
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

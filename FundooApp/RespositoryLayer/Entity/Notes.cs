@@ -20,7 +20,7 @@ namespace RespositoryLayer.Entity
         [Required]
         public string Message { get; set; }
         [Required]
-        public DateTime Remainder { get; set; }
+        public string Reminder { get; set; }
         [Required]
         public string Colour { get; set; }
         [Required]
@@ -35,5 +35,8 @@ namespace RespositoryLayer.Entity
         public DateTime? Createdat { get; set; }
 
         public DateTime? Modifiedat { get; set; }
+
+        public ICollection<Collaborator> Collaborator { get; set; }
+
     }
 }

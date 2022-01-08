@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using RespositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FundooApp.Controllers
 {
@@ -24,6 +25,7 @@ namespace FundooApp.Controllers
         {
             try
             {
+                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
                 if (this.notesBL.CreateNote(notes))
                 {
                     return this.Ok(new { Success = true, message = " note created successfully " });
@@ -188,6 +190,27 @@ namespace FundooApp.Controllers
             catch (Exception ex)
             {
                 return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPut]
+        [Route("api/addreminder")]
+        public IActionResult AddReminder(long notesId,  string reminder)
+        {
+            try
+            {
+                bool result = this.notesBL.AddReminder(notesId, reminder);
+                if (result.Equals("Remind added successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new  { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new  { Status = false, Message = ex.Message });
             }
         }
     }

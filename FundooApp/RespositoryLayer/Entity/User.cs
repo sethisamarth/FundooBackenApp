@@ -44,9 +44,5 @@ namespace RespositoryLayer.Entity
 
         public ICollection<Notes> Notes { get; set; }
 
-
-
-
-
     }
 }
