@@ -25,7 +25,7 @@ namespace FundooApp.Controllers
         {
             try
             {
-                long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+               // long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
                 if (this.notesBL.CreateNote(notes))
                 {
                     return this.Ok(new { Success = true, message = " note created successfully " });
@@ -35,9 +35,9 @@ namespace FundooApp.Controllers
                     return this.BadRequest(new { Success = false, message = "unsuccessful Notes not Added" });
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return this.BadRequest(new { Success = false, message = e.InnerException });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpGet("NotesAllData")]
@@ -52,9 +52,9 @@ namespace FundooApp.Controllers
                 }
                 return Ok(new { Success = true, message = " Successfully   ", notes });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpPut]
@@ -73,7 +73,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException =ex.InnerException});
             }
         }
         [HttpDelete]
@@ -87,12 +87,11 @@ namespace FundooApp.Controllers
                 {
                     return this.Ok(new { Success = true, message = "Note Removed successfully " });
                 }
-
                 return this.BadRequest(new { Status = false, Message = "Unable to delete note : Enter valid Id" });
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
 
         }
@@ -112,7 +111,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpPut]
@@ -132,7 +131,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpPut]
@@ -151,7 +150,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpPut]
@@ -170,7 +169,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpGet]
@@ -189,7 +188,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         [HttpPut]
@@ -210,7 +209,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new  { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
     }

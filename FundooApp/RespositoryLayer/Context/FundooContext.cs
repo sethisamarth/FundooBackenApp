@@ -18,5 +18,6 @@ namespace RespositoryLayer.Context
         }
         public DbSet<Notes> NotesTable { get; set; }
         public DbSet<Collaborator> CollaboratorTable { get; set; }
+        public DbSet<Labels> LabelsTable { get; set; }
     }
 }

@@ -43,6 +43,8 @@ namespace FundooApp
             services.AddTransient<INotesRL, NotesRL>();
             services.AddTransient<ICollaboratorRL,CollaboratorRL>();
             services.AddTransient<ICollaboratorBL,CollaboratorBL>();
+            services.AddTransient<ILabelsBL, LabelsBL>();
+            services.AddTransient<ILabelsRL, LabelsRL>();
             services.AddSwaggerGen(swagger =>
             {
                 //This is to generate the Default UI of Swagger Documentation  

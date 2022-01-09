@@ -9,5 +9,7 @@ namespace BusinessLayer.Interfaces
     public interface ICollaboratorBL
     {
        public bool AddCollaborator(CollaboratorModel collaborators);
+        bool DeleteCollaborator(long collaboratorId);
+        IEnumerable<Collaborator> GetAllCollaborator();
     }
 }

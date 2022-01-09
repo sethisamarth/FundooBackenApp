@@ -6,21 +6,19 @@ using System.Text;
 
 namespace RespositoryLayer.Entity
 {
-   public class Collaborator
+    public class Labels
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long CollaboratorId { get; set; }
+        public long LableId { get; set; }
 
         [ForeignKey("NotesTable")]
         public long NotesId { get; set; }
-        public Notes Notes { get; set; } 
-        
+        public Notes Notes { get; set; }
+
         [ForeignKey("Users")]
         public long Id { get; set; }
         public User User { get; set; }
-
-        [Required]
-        public string EmailId { get; set; }
+        public string Label { get; set; }
     }
 }
