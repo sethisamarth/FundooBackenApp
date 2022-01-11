@@ -17,6 +17,11 @@ namespace FundooApp.Controllers
         {
             this.userBL = userBL; 
         }
+        /// <summary>
+        /// Registering User
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult UserRegistration(UserRegistration user)
         {
@@ -31,13 +36,17 @@ namespace FundooApp.Controllers
                     return this.BadRequest(new { Success = false, message = "Registration unsuccessful" });
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return this.BadRequest(new { Success = false, message = e.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
-        [HttpGet("UserInfo")]
-        public IActionResult GetAlldata()
+        /// <summary>
+        /// Getting Users info
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetAllUserdata()
         {
             try
             {
@@ -49,12 +58,16 @@ namespace FundooApp.Controllers
                 }
                 return this.BadRequest(new { Success = false, message = " User records not found" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return this.BadRequest(new { Success = false, message = e.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
-
+        /// <summary>
+        /// User login
+        /// </summary>
+        /// <param name="user1"></param>
+        /// <returns></returns>
         [HttpPost("Login")]
         public IActionResult UserLogin(UserLogin user1)
         {
@@ -67,11 +80,16 @@ namespace FundooApp.Controllers
                 }
                 return this.BadRequest(new { Success = false, message = "Login unsuccessful" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return this.BadRequest(new { Success = false, message = e.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Forget Password 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("forgetPassword")]
         public IActionResult ForgetPassword(string email)
@@ -91,15 +109,20 @@ namespace FundooApp.Controllers
                     return Ok(new { Success = true, message = "Error in Reset password link send" });
                 }
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
-                return this.BadRequest(new {success=false,message=e.Message});
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Reset password
+        /// </summary>
+        /// <param name="resetPassword"></param>
+        /// <returns></returns>
         [HttpPut]
         [Authorize]
         [Route("resetPassword")]
-        public IActionResult ResetPasswordEmployee([FromBody] ResetPassword resetPassword)
+        public IActionResult ResetPasswordEmployee(ResetPassword resetPassword)
         {
             try
             {
@@ -112,7 +135,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
     }

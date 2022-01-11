@@ -16,6 +16,11 @@ namespace RespositoryLayer.Services
         {
             this.context = context;
         }
+        /// <summary>
+        /// Adding Collaborator
+        /// </summary>
+        /// <param name="collaborators"></param>
+        /// <returns></returns>
         public bool AddCollaborator(CollaboratorModel collaborators)
         {
             try 
@@ -43,11 +48,17 @@ namespace RespositoryLayer.Services
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
+        /// <summary>
+        /// Deleting Collaborator 
+        /// </summary>
+        /// <param name="collaboratorId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool DeleteCollaborator(long collaboratorId)
         {
             try
@@ -61,11 +72,15 @@ namespace RespositoryLayer.Services
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
+        /// <summary>
+        /// Retrieveing all Collaborator
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Collaborator> GetAllCollaborator()
         {
             try

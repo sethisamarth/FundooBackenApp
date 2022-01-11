@@ -40,8 +40,12 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
-        [HttpGet("NotesAllData")]
-        public IActionResult GetAllData()
+        /// <summary>
+        /// Get all notes data
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetAllNotesData()
         {
             try
             {
@@ -57,9 +61,14 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Update Notes
+        /// </summary>
+        /// <param name="notes"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("updateNotes")]
-        public IActionResult UpdateNotes([FromBody] Notes notes)
+        public IActionResult UpdateNotes( Notes notes)
         {
             try
             {
@@ -76,6 +85,11 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException =ex.InnerException});
             }
         }
+        /// <summary>
+        /// Delete Notes by NoteId
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{noteId}")]
         public IActionResult DeleteNotes(long noteId)
@@ -95,6 +109,11 @@ namespace FundooApp.Controllers
             }
 
         }
+        /// <summary>
+        /// Pin or unpin a note
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("pinOrUnpin")]
         public IActionResult PinOrUnpinNote(long noteId)
@@ -114,6 +133,11 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Archieve or Unarchieve
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("archieveOrUnarchieve")]
         public IActionResult ArchieveOrUnarchieve(long noteId)
@@ -134,8 +158,14 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Add Color
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
         [HttpPut]
-        [Route("addColor")]
+        [Route("Color")]
         public IActionResult AddColor(long noteId, string color)
         {
             try
@@ -153,6 +183,11 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Trash Or Untrash
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("trashOrUntrash")]
         public IActionResult TrashOrUntrash(long noteId)
@@ -172,6 +207,10 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Retrieveing All TrashNotes
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("retrieveAllTrashNotes")]
         public IActionResult RetrieveAllTrashNotes()
@@ -191,8 +230,14 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Adding Reminder
+        /// </summary>
+        /// <param name="notesId"></param>
+        /// <param name="reminder"></param>
+        /// <returns></returns>
         [HttpPut]
-        [Route("api/addreminder")]
+        [Route("reminder")]
         public IActionResult AddReminder(long notesId,  string reminder)
         {
             try
@@ -206,6 +251,31 @@ namespace FundooApp.Controllers
                 {
                     return this.BadRequest(new  { Status = false, Message = result });
                 }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
+            }
+        }
+        /// <summary>
+        /// Upload Image
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("uploadImage")]
+        public IActionResult UploadImage(long noteId, IFormFile image)
+        {
+            try
+            {
+                bool result = this.notesBL.UploadImage(noteId, image);
+                if (result.Equals(true))
+                {
+                    return this.Ok(new{ Status = true, Message = "Upload Image Successfully", Data = noteId });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RespositoryLayer.Entity;
@@ -10,6 +11,7 @@ namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CollaboratorController : ControllerBase
     {
         private readonly ICollaboratorBL collaboratorBL;
@@ -18,6 +20,11 @@ namespace FundooApp.Controllers
         {
             this.collaboratorBL = collaboratorBL;
         }
+        /// <summary>
+        /// Adding Collaborator
+        /// </summary>
+        /// <param name="collaborators"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("addCollaborators")]
         public ActionResult AddCollaborators(CollaboratorModel collaborators)
@@ -34,9 +41,14 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Delete Collaborator
+        /// </summary>
+        /// <param name="collaboratorId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("collaboratorId")]
         public IActionResult DeleteCollaborator(long collaboratorId)
@@ -52,10 +64,14 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
-        [HttpGet("CollaboratorAllData")]
+        /// <summary>
+        /// Get All collaborator
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         public IActionResult GetAllData()
         {
             try
@@ -67,9 +83,9 @@ namespace FundooApp.Controllers
                 }
                 return Ok(new { Success = true, message = "  Retrieve Collaborator Successfully" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
     }

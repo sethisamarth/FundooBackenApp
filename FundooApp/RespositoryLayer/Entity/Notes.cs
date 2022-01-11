@@ -33,9 +33,7 @@ namespace RespositoryLayer.Entity
         public bool IsTrash { get; set; }
 
         public DateTime? Createdat { get; set; }
-
         public DateTime? Modifiedat { get; set; }
-
         public ICollection<Collaborator> Collaborator { get; set; }
         public ICollection<Labels> Labels { get; set; }
 

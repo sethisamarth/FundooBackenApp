@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RespositoryLayer.Entity;
@@ -9,6 +10,7 @@ namespace FundooApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class LabelsController : ControllerBase
     {
         private readonly ILabelsBL labelsBL;
@@ -16,6 +18,11 @@ namespace FundooApp.Controllers
         {
             this.labelsBL = labelsBL;
         }
+        /// <summary>
+        /// Adding label
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("addLable")]
         public IActionResult AddLabels(LabelModel model)
@@ -32,11 +39,14 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Retrieveing all labels
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        [Route("retrieveAllLables")]
         public IActionResult RetrieveAllLables()
         {
             try
@@ -51,9 +61,14 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Delete Label
+        /// </summary>
+        /// <param name="lableId"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("lableId")]
         public IActionResult DeleteLable(long lableId)
@@ -70,9 +85,14 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
+        /// <summary>
+        /// Update label
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("updateLable")]
         public IActionResult UpdateLable(LabelModel model)
@@ -89,7 +109,7 @@ namespace FundooApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
     }

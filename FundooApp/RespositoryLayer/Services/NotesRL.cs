@@ -1,5 +1,9 @@
-﻿using CommonLayer.Model;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RespositoryLayer.Context;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
@@ -13,10 +17,17 @@ namespace RespositoryLayer.Services
     public class NotesRL : INotesRL
     {
         FundooContext context;
-        public NotesRL(FundooContext context)
+        IConfiguration configuration;
+        public NotesRL(FundooContext context, IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
         }
+        /// <summary>
+        /// Create Notes
+        /// </summary>
+        /// <param name="notes"></param>
+        /// <returns></returns>
         public bool CreateNote(NotesModel notes)
         {
             try
@@ -45,12 +56,15 @@ namespace RespositoryLayer.Services
                     return false;
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                throw e;
+                throw;
             }
         }
-
+        /// <summary>
+        /// Get All Notes
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Notes> GetAllNotes()
         {
             try
@@ -62,6 +76,12 @@ namespace RespositoryLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Remove Notes
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool RemoveNote(long noteId)
         {
             try
@@ -78,11 +98,17 @@ namespace RespositoryLayer.Services
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
+        /// <summary>
+        /// Update Notes
+        /// </summary>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string UpdateNotes(Notes notes)
         {
             try
@@ -95,13 +121,17 @@ namespace RespositoryLayer.Services
                 }
                 return "Updation Failed";
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
-
-        //Pin and Unpin
+        /// <summary>
+        /// Pin or Unpin Notes
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string PinOrUnpin(long noteId)
         {
             try
@@ -125,11 +155,17 @@ namespace RespositoryLayer.Services
                 }
                 return "Unable to Pin or Unpin notes";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
+        /// <summary>
+        /// Archieve Or Unarchieve
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string ArchieveOrUnarchieve(long noteId)
         {
             try
@@ -153,11 +189,18 @@ namespace RespositoryLayer.Services
                 }
                 return "Unable to Archieve or UnArchieve notes";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
+        /// <summary>
+        /// Add color
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool AddColour(long noteId, string color)
         {
             try
@@ -172,11 +215,17 @@ namespace RespositoryLayer.Services
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
+        /// <summary>
+        /// Trashing Notes
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public string IsTrash(long noteId)
         {
             try
@@ -201,11 +250,16 @@ namespace RespositoryLayer.Services
 
                 return "Unable to Trash or Restored notes"; ;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
+        /// <summary>
+        /// Retrieving Trash Notes
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public IEnumerable<NotesModel> RetrieveTrashNotes()
         {
             try
@@ -222,12 +276,18 @@ namespace RespositoryLayer.Services
                 }
                 return result; 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
-
+        /// <summary>
+        /// Adding Reminder
+        /// </summary>
+        /// <param name="notesId"></param>
+        /// <param name="reminder"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool AddReminder(long notesId, string reminder)
         {
             try
@@ -242,9 +302,48 @@ namespace RespositoryLayer.Services
                 }
                 return false ;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
+                throw;
+            }
+        }
+        /// <summary>
+        /// Upload Image for note
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="noteimage"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public bool UploadImage(long noteId, IFormFile noteimage)
+        {
+            try
+            {
+                var notes = this.context.NotesTable.Where(x => x.NotesId == noteId).SingleOrDefault();
+                if (notes != null)
+                {
+                    Account account = new Account
+                    (
+                        configuration["CloudinaryAccount:CloudName"],
+                        configuration["CloudinaryAccount:ApiKey"],
+                        configuration["CloudinaryAccount:ApiSecret"]
+                    );
+                    var path = noteimage.OpenReadStream();
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(noteimage.FileName, path)
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    notes.Image = uploadResult.Url.ToString();
+                    context.Entry(notes).State = EntityState.Modified;
+                    context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception )
+            {
+                throw;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.Model;
+using Microsoft.AspNetCore.Http;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
 using System;
@@ -77,7 +78,6 @@ namespace BusinessLayer.Services
 
         public string ArchieveOrUnArchieve(long noteId)
         {
-
             try
             {
                 string result = this.notesRL.ArchieveOrUnarchieve(noteId);
@@ -91,7 +91,6 @@ namespace BusinessLayer.Services
 
         public bool AddColor(long noteId, string color)
         {
-
             try
             {
                 bool result = this.notesRL.AddColour(noteId, color);
@@ -134,6 +133,19 @@ namespace BusinessLayer.Services
             try
             {
                 bool result = this.notesRL.AddReminder(notesId, reminder);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool UploadImage(long noteId, IFormFile image)
+        {
+            try
+            {
+                bool result = this.notesRL.UploadImage(noteId, image);
                 return result;
             }
             catch (Exception ex)

@@ -16,6 +16,11 @@ namespace RespositoryLayer.Services
         {
             this.context = context;
         }
+        /// <summary>
+        /// Adding Labels
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public bool AddLables(LabelModel model)
         {
             try
@@ -41,6 +46,10 @@ namespace RespositoryLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Retrieving Labels
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Labels> RetrieveLables()
         {
             try
@@ -52,6 +61,11 @@ namespace RespositoryLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Removing Label
+        /// </summary>
+        /// <param name="lableId"></param>
+        /// <returns></returns>
         public bool RemoveLable(long lableId)
         {
             try
@@ -65,29 +79,41 @@ namespace RespositoryLayer.Services
                 }
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception(ex.Message);
+                throw ;
             }
         }
+        /// <summary>
+        /// Updating Label
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public bool UpdateLabels(LabelModel model)
         {
-            if (model != null)
+            try
             {
-                Labels labels = new Labels();
-                labels.NotesId = model.NotesId;
-                labels.Label = model.Label;
-                this.context.LabelsTable.Update(labels);
+                if (model != null)
+                {
+                    Labels labels = new Labels();
+                    labels.NotesId = model.NotesId;
+                    labels.Label = model.Label;
+                    this.context.LabelsTable.Update(labels);
+                }
+                //Save the changes in database
+                int result = this.context.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            //Save the changes in database
-            int result = this.context.SaveChanges();
-            if (result > 0)
+            catch (Exception)
             {
-                return true;
-            }
-            else
-            {
-                return false;
+                throw;
             }
         }
     }

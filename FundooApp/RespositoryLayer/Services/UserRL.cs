@@ -24,7 +24,11 @@ namespace RespositoryLayer.Services
             this.context = context;
             _config = config;
         }
-       
+        /// <summary>
+        /// Registering user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public bool Registration(UserRegistration user)
         {
             try
@@ -48,12 +52,15 @@ namespace RespositoryLayer.Services
                     return false;
                 }
             }
-
             catch (Exception e)
             {
                 throw;
             }
         }
+        /// <summary>
+        /// Retrieving All users
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<User> GetAlldata()
         {
             return context.Users.ToList();
@@ -82,11 +89,16 @@ namespace RespositoryLayer.Services
                     return null;
                 }
             }
-            catch (Exception e)
+            catch (Exception )
             { 
                 throw;
             }
         }
+        /// <summary>
+        /// Generating Token
+        /// </summary>
+        /// <param name="EmailId"></param>
+        /// <returns></returns>
         private string GenerateJWTToken(string EmailId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -94,10 +106,6 @@ namespace RespositoryLayer.Services
             var claims = new[] {
                 new Claim("EmailId",EmailId)
             };
-
-            //var token = new JwtSecurityToken(null, null, claims,
-            // expires: DateTime.Now.AddMinutes(5),
-            // signingCredentials: credentials);
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
               claims,
@@ -105,6 +113,11 @@ namespace RespositoryLayer.Services
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+        /// <summary>
+        /// Encrypting Password
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public string encryptpass(string password)
         {
             string msg = "";
@@ -113,6 +126,11 @@ namespace RespositoryLayer.Services
             msg = Convert.ToBase64String(encode);
             return msg;
         }
+        /// <summary>
+        /// Decrypting 
+        /// </summary>
+        /// <param name="encryptpwd"></param>
+        /// <returns></returns>
         private string Decryptpass(string encryptpwd)
         {
             string decryptpwd = string.Empty;
@@ -125,17 +143,35 @@ namespace RespositoryLayer.Services
             decryptpwd = new String(decoded_char);
             return decryptpwd;
         }
+        /// <summary>
+        /// Sending email Link
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool SendResetLink(string email)
         {
-            User existingLogin = this.context.Users.Where(X => X.EmailId == email).FirstOrDefault();
-            if (existingLogin.EmailId != null)
+            try
             {
-                var token =GenerateJWTToken(existingLogin.EmailId);
-                new MsmqOperation().Sender(token);
-                return true;
+                User existingLogin = this.context.Users.Where(X => X.EmailId == email).FirstOrDefault();
+                if (existingLogin.EmailId != null)
+                {
+                    var token = GenerateJWTToken(existingLogin.EmailId);
+                    new MsmqOperation().Sender(token);
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (Exception)
+            {
+                throw;
+            }
         }
+        /// <summary>
+        /// Reseting Password
+        /// </summary>
+        /// <param name="resetPassword"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool ResetPassword(ResetPassword resetPassword)
         {
             try
@@ -160,9 +196,9 @@ namespace RespositoryLayer.Services
                     return false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception )
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
     }
