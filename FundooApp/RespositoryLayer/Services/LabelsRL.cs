@@ -21,12 +21,13 @@ namespace RespositoryLayer.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public bool AddLables(LabelModel model)
+        public bool AddLables(LabelModel model,long Id)
         {
             try
             {
                 Labels newLabel = new Labels();
                 newLabel.Label = model.Label;
+                newLabel.Id = Id;
                 newLabel.NotesId = model.NotesId;
                 //Adding the data to database
                 this.context.LabelsTable.Add(newLabel);
@@ -84,32 +85,25 @@ namespace RespositoryLayer.Services
                 throw ;
             }
         }
-        /// <summary>
-        /// Updating Label
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public bool UpdateLabels(LabelModel model)
+        public bool EditLabel(long labelId, LabelModel model)
         {
             try
             {
-                if (model != null)
+                var info = this.context.LabelsTable.Where(x => x.LableId == labelId).FirstOrDefault();
+                if (info != null)
                 {
-                    Labels labels = new Labels();
-                    labels.NotesId = model.NotesId;
-                    labels.Label = model.Label;
-                    this.context.LabelsTable.Update(labels);
-                }
-                //Save the changes in database
-                int result = this.context.SaveChanges();
-                if (result > 0)
-                {
+
+                    info.Label = model.Label;
+                    this.context.Update(info);
+                    this.context.SaveChanges();
                     return true;
+
                 }
                 else
                 {
                     return false;
                 }
+
             }
             catch (Exception)
             {

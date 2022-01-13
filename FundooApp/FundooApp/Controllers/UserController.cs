@@ -29,7 +29,7 @@ namespace FundooApp.Controllers
             {
                 if (this.userBL.Registration(user))
                 {
-                    return this.Ok(new { Success = true, message = "Registration Successful" });
+                    return this.Ok(new { Success = true, message = "Registration Successful" ,data = user});
                 }
                 else
                 {

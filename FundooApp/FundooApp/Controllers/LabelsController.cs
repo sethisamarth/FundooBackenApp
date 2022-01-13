@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using RespositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FundooApp.Controllers
 {
@@ -29,7 +30,8 @@ namespace FundooApp.Controllers
         {
             try
             {
-                bool result = this.labelsBL.AddLables(model);
+                var Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                bool result = this.labelsBL.AddLables(model,Id);
                 if (result.Equals(true))
                 {
                     return this.Ok(new { Status = true, Message = "Add Lable Sucessfully", Data = model });
@@ -95,11 +97,11 @@ namespace FundooApp.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("updateLable")]
-        public IActionResult UpdateLable(LabelModel model)
+        public IActionResult UpdateLable(long labelId,LabelModel model)
         {
             try
             {
-                bool result = this.labelsBL.UpdateLabels(model);
+                bool result = this.labelsBL.EditLabel(labelId, model);
                 if (result.Equals("UPDATE LABLE SUCCESSFULL"))
                 {
                     return this.Ok(new { Status = true, Message = result, Data = model });

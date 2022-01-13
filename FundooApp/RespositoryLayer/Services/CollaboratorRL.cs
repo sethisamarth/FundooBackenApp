@@ -21,16 +21,16 @@ namespace RespositoryLayer.Services
         /// </summary>
         /// <param name="collaborators"></param>
         /// <returns></returns>
-        public bool AddCollaborator(CollaboratorModel collaborators)
+        public bool AddCollaborator(CollaboratorModel collaborators, long Id)
         {
             try 
             {
-               var Cd = this.context.NotesTable.Where(x => x.Id == collaborators.Id && x.NotesId == collaborators.NotesId ).SingleOrDefault();
-               var Cd1 = this.context.Users.Where(x => x.EmailId == collaborators.EmailId).SingleOrDefault();
+                var Cd = this.context.NotesTable.Where(x =>x.NotesId == collaborators.NotesId ).SingleOrDefault();
+                var Cd1 = this.context.Users.Where(x => x.EmailId == collaborators.EmailId).SingleOrDefault();
                 if (Cd != null && Cd1!=null )
                 {
                     Collaborator newCollaborator = new Collaborator();
-                    newCollaborator.Id = collaborators.Id;
+                    newCollaborator.Id = Id;
                     newCollaborator.NotesId = collaborators.NotesId;
                     newCollaborator.EmailId = collaborators.EmailId;
                     //Adding the data to database

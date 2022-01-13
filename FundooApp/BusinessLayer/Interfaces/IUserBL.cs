@@ -9,7 +9,7 @@ namespace BusinessLayer.Interfaces
 {
     public interface IUserBL
     {
-        bool Registration(UserRegistration user);
+        public bool Registration(UserRegistration user);
         LoginResponse UserLogin(UserLogin user1);
         IEnumerable<User> GetAlldata();
         public bool SendResetLink(string email);

@@ -16,11 +16,11 @@ namespace BusinessLayer.Services
             this.collaboratorRL = collaboratorRL;
         }
 
-        public bool AddCollaborator(CollaboratorModel collaborators)
+        public bool AddCollaborator(CollaboratorModel collaborators, long Id)
         {
             try
             {
-                return this.collaboratorRL.AddCollaborator(collaborators);
+                return this.collaboratorRL.AddCollaborator(collaborators,Id);
             }
             catch (Exception e)
             {

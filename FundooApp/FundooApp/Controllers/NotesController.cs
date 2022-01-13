@@ -3,10 +3,17 @@ using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using RespositoryLayer.Context;
 using RespositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooApp.Controllers
 {
@@ -16,9 +23,15 @@ namespace FundooApp.Controllers
     public class NotesController : ControllerBase
     {
         private readonly INotesBL notesBL;
-        public NotesController(INotesBL notesBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly FundooContext context;
+        private readonly IDistributedCache distributedCache;
+        public NotesController(INotesBL notesBL, IMemoryCache memoryCache, FundooContext context, IDistributedCache distributedCache)
         {
             this.notesBL = notesBL;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.context = context;
         }
         [HttpPost]
         public IActionResult CreateNote(NotesModel notes)
@@ -28,7 +41,7 @@ namespace FundooApp.Controllers
                // long UserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
                 if (this.notesBL.CreateNote(notes))
                 {
-                    return this.Ok(new { Success = true, message = " note created successfully " });
+                    return this.Ok(new { Success = true, message = " note created successfully ",data = notes });
                 }
                 else
                 {
@@ -54,7 +67,7 @@ namespace FundooApp.Controllers
                 {
                     return BadRequest(new { Success = false, message = "No Notes Found" });
                 }
-                return Ok(new { Success = true, message = " Successfully   ", notes });
+                return Ok(new { Success = true, message = " Successfully", data=notes });
             }
             catch (Exception ex)
             {
@@ -272,7 +285,7 @@ namespace FundooApp.Controllers
                 bool result = this.notesBL.UploadImage(noteId, image);
                 if (result.Equals(true))
                 {
-                    return this.Ok(new{ Status = true, Message = "Upload Image Successfully", Data = noteId });
+                    return this.Ok(new{ Status = true, Message = "Upload Image Successfully",Data = noteId });
                 }
 
                 return this.BadRequest(new { Status = false, Message = result });
@@ -281,6 +294,31 @@ namespace FundooApp.Controllers
             {
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
+        }
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
+        {
+            var cacheKey = "notesList";
+            string serializedNotesList;
+            var notesList = new List<Notes>();
+            var redisNotesList = await distributedCache.GetAsync(cacheKey);
+            if (redisNotesList != null)
+            {
+                serializedNotesList = Encoding.UTF8.GetString(redisNotesList);
+                notesList = JsonConvert.DeserializeObject<List<Notes>>(serializedNotesList);
+            }
+            else
+            {
+                //notesList = await context.NotesTable.ToListAsync();
+                 notesList = (List<Notes>)notesBL.GetAllNotes();
+                serializedNotesList = JsonConvert.SerializeObject(notesList);
+                redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
+                //var options = new DistributedCacheEntryOptions()
+                //    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                //    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                //await distributedCache.SetAsync(cacheKey, redisNotesList, options);
+            }
+            return Ok(notesList);
         }
     }
 }

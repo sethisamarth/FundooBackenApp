@@ -8,8 +8,8 @@ namespace BusinessLayer.Interfaces
 {
     public interface ICollaboratorBL
     {
-       public bool AddCollaborator(CollaboratorModel collaborators);
-        bool DeleteCollaborator(long collaboratorId);
+       public bool AddCollaborator(CollaboratorModel collaborators, long Id);
+       public bool DeleteCollaborator(long collaboratorId);
         IEnumerable<Collaborator> GetAllCollaborator();
     }
 }

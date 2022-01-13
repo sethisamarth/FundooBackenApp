@@ -74,7 +74,7 @@ namespace RespositoryLayer.Services
                 {
                     LoginResponse login = new LoginResponse();
                     string token;
-                    token = GenerateJWTToken(existingLogin.EmailId);
+                    token = GenerateJWTToken(existingLogin.EmailId,existingLogin.Id);
                     login.Id = existingLogin.Id;
                     login.FirstName = existingLogin.FirstName;
                     login.LastName = existingLogin.LastName;
@@ -99,12 +99,13 @@ namespace RespositoryLayer.Services
         /// </summary>
         /// <param name="EmailId"></param>
         /// <returns></returns>
-        private string GenerateJWTToken(string EmailId)
+        private string GenerateJWTToken(string EmailId,long Id)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
-                new Claim("EmailId",EmailId)
+                new Claim(ClaimTypes.Email,EmailId),
+                new Claim("Id",Id.ToString())
             };
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
@@ -155,7 +156,7 @@ namespace RespositoryLayer.Services
                 User existingLogin = this.context.Users.Where(X => X.EmailId == email).FirstOrDefault();
                 if (existingLogin.EmailId != null)
                 {
-                    var token = GenerateJWTToken(existingLogin.EmailId);
+                    var token = GenerateJWTToken(existingLogin.EmailId,existingLogin.Id);
                     new MsmqOperation().Sender(token);
                     return true;
                 }

@@ -42,7 +42,6 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
         public bool SendResetLink(string email)
         {
             try
@@ -53,9 +52,7 @@ namespace BusinessLayer.Services
             {
                 throw;
             }
-
         }
-
         public bool ResetPassword(ResetPassword resetPassword)
         {
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using RespositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FundooApp.Controllers
 {
@@ -31,8 +32,8 @@ namespace FundooApp.Controllers
         {
             try
             {
-               // var result = this.collaboratorBL.AddCollaborator(collaborators);
-                if (this.collaboratorBL.AddCollaborator(collaborators))
+                var Id = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if (this.collaboratorBL.AddCollaborator(collaborators,Id))
                 {
                     return this.Ok(new{ Status = true, Message = "New Collaborator Added Sucessfully", Data = collaborators });
                 }
@@ -81,7 +82,7 @@ namespace FundooApp.Controllers
                 {
                     return BadRequest(new { Success = false, message = "No collaborator Found" });
                 }
-                return Ok(new { Success = true, message = "  Retrieve Collaborator Successfully" });
+                return Ok(new { Success = true, message = "  Retrieve Collaborator Successfully",data=collaborators });
             }
             catch (Exception ex)
             {

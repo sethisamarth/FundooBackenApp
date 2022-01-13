@@ -65,3 +65,8 @@ C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\
 C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
 C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\Pipelines.Sockets.Unofficial.dll
+C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\StackExchange.Redis.dll
+C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\System.Diagnostics.PerformanceCounter.dll
+C:\Users\sethi\Desktop\FundoProgram\FundooApp\FundooApp\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll

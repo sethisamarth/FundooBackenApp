@@ -29,7 +29,9 @@ namespace FundooApp
         {
             Configuration = configuration;
         }
-
+        /// <summary>
+        /// IConfiguration method
+        /// </summary>
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -45,6 +47,7 @@ namespace FundooApp
             services.AddTransient<ICollaboratorBL,CollaboratorBL>();
             services.AddTransient<ILabelsBL, LabelsBL>();
             services.AddTransient<ILabelsRL, LabelsRL>();
+            services.AddMemoryCache();
             services.AddSwaggerGen(swagger =>
             {
                 //This is to generate the Default UI of Swagger Documentation  
@@ -100,9 +103,18 @@ namespace FundooApp
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])) //Configuration["JwtToken:SecretKey"]   
                 };
             });
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Configure method
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

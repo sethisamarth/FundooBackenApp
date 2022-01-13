@@ -16,11 +16,23 @@ namespace BusinessLayer.Services
             this.labelsRL = labelsRL;
 
         }
-        public bool AddLables(LabelModel model)
+        public bool AddLables(LabelModel model, long Id)
         {
             try
             {
-                return this.labelsRL.AddLables(model);
+                return this.labelsRL.AddLables(model, Id);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public bool EditLabel(long labelId, LabelModel model)
+        {
+            try
+            {
+                return this.labelsRL.EditLabel(labelId,model);
             }
             catch (Exception e)
             {
@@ -45,18 +57,6 @@ namespace BusinessLayer.Services
             try
             {
                 return this.labelsRL.RetrieveLables();
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        public bool UpdateLabels(LabelModel model)
-        {
-            try
-            {
-                return this.labelsRL.UpdateLabels( model);
             }
             catch (Exception e)
             {
