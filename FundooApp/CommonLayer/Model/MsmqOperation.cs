@@ -14,7 +14,10 @@ namespace CommonLayer.Model
     {
         MessageQueue msmq = new MessageQueue();
         public string htmlString;
-
+        /// <summary>
+        /// Senders the specified token.
+        /// </summary>
+        /// <param name="token">The token.</param>
         public void Sender(string token)
         {
             msmq.Path = @".\private$\Tokens";
@@ -36,7 +39,11 @@ namespace CommonLayer.Model
                 throw ex.InnerException;
             }
         }
-
+        /// <summary>
+        /// Handles the ReceiveCompleted event of the Msmq control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ReceiveCompletedEventArgs"/> instance containing the event data.</param>
         private void Msmq_ReceiveCompleted(object sender, ReceiveCompletedEventArgs e)
         {
             var msg = msmq.EndReceive(e.AsyncResult);

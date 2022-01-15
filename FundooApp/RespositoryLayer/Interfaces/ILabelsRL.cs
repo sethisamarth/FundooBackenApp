@@ -1,4 +1,5 @@
-﻿using FundooApp.Controllers;
+﻿using CommonLayer.Model;
+using FundooApp.Controllers;
 using RespositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,6 @@ namespace RespositoryLayer.Interfaces
        public bool AddLables(LabelModel model, long Id);
         IEnumerable<Labels> RetrieveLables();
        public bool RemoveLable(long lableId);
-        bool EditLabel(long labelId, LabelModel model);
+        bool UpdateLabel(LabelModel1 model, long labelId);
     }
 }

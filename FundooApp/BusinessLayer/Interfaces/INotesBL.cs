@@ -20,5 +20,6 @@ namespace BusinessLayer.Interfaces
         IEnumerable<NotesModel> RetrieveTrashNotes();
         public bool AddReminder(long notesId, string reminder);
         public bool UploadImage(long noteId, IFormFile image);
+        bool EditNotes(NewNotesModel model, long notesId);
     }
 }

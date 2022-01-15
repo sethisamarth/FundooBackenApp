@@ -4,7 +4,16 @@ using FundooApp.Controllers.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using RespositoryLayer.Context;
+using RespositoryLayer.Entity;
 using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooApp.Controllers
 {
@@ -13,9 +22,15 @@ namespace FundooApp.Controllers
     public class UserController : ControllerBase
     {
         IUserBL userBL;
-        public UserController(IUserBL userBL)
+        private readonly IMemoryCache memoryCache;
+        private readonly FundooContext context;
+        private readonly IDistributedCache distributedCache;
+        public UserController(IUserBL userBL, IMemoryCache memoryCache, FundooContext context, IDistributedCache distributedCache)
         {
             this.userBL = userBL; 
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.context = context;
         }
         /// <summary>
         /// Registering User
@@ -137,6 +152,28 @@ namespace FundooApp.Controllers
             {
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
+        }
+        [HttpGet]
+        [Route("redis")]
+        public async Task<IActionResult> GetAllUsersUsingRedisCache()
+        {
+            var cacheKey = "UserList";
+            string serializedUserList;
+            var UserList = new List<User>();
+            var redisUserList = await distributedCache.GetAsync(cacheKey);
+            if (redisUserList != null)
+            {
+                serializedUserList = Encoding.UTF8.GetString(redisUserList);
+                UserList = JsonConvert.DeserializeObject<List<User>>(serializedUserList);
+            }
+            else
+            {
+                UserList = await context.Users.ToListAsync();
+                serializedUserList = JsonConvert.SerializeObject(UserList);
+                redisUserList = Encoding.UTF8.GetBytes(serializedUserList);
+                UserList = (List<User>)userBL.GetAlldata();
+            }
+            return Ok(UserList);
         }
     }
 }

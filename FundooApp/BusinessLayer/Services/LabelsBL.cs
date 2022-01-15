@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using CommonLayer.Model;
 using FundooApp.Controllers;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
@@ -16,6 +17,12 @@ namespace BusinessLayer.Services
             this.labelsRL = labelsRL;
 
         }
+        /// <summary>
+        /// Adds the lables.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="Id">The identifier.</param>
+        /// <returns></returns>
         public bool AddLables(LabelModel model, long Id)
         {
             try
@@ -27,19 +34,11 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
-        public bool EditLabel(long labelId, LabelModel model)
-        {
-            try
-            {
-                return this.labelsRL.EditLabel(labelId,model);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
+        /// <summary>
+        /// Removes the lable.
+        /// </summary>
+        /// <param name="lableId">The lable identifier.</param>
+        /// <returns></returns>
         public bool RemoveLable(long lableId)
         {
             try
@@ -51,12 +50,27 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
+        /// <summary>
+        /// Retrieves the lables.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Labels> RetrieveLables()
         {
             try
             {
                 return this.labelsRL.RetrieveLables();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public bool UpdateLabel(LabelModel1 model, long labelId)
+        {
+            try
+            {
+                return this.labelsRL.UpdateLabel(model, labelId);
             }
             catch (Exception e)
             {

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interfaces;
+using CommonLayer.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -90,24 +91,19 @@ namespace FundooApp.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
-        /// <summary>
-        /// Update label
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         [HttpPut]
-        [Route("updateLable")]
-        public IActionResult UpdateLable(long labelId,LabelModel model)
+        [Route("update")]
+        public IActionResult LableUpdate(LabelModel1 model,long labelId)
         {
             try
             {
-                bool result = this.labelsBL.EditLabel(labelId, model);
-                if (result.Equals("UPDATE LABLE SUCCESSFULL"))
+                bool result = this.labelsBL.UpdateLabel(model, labelId);
+                if (result.Equals(true))
                 {
-                    return this.Ok(new { Status = true, Message = result, Data = model });
+                    return this.Ok(new { Status = true, Message = "update Lable Sucessfully" ,data= model});
                 }
 
-                return this.BadRequest(new { Status = false, Message = "Error while updating lables" });
+                return this.BadRequest(new { Status = false, Message = "Unable to update lable : Enter valid Id" });
             }
             catch (Exception ex)
             {

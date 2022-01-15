@@ -16,6 +16,11 @@ namespace BusinessLayer.Services
         {
             this.userRL = userRL;
         }
+        /// <summary>
+        /// Registrations the specified user.
+        /// </summary>
+        /// <param name="user">The user.</param>
+        /// <returns></returns>
         public bool Registration(UserRegistration user)
         {
             try
@@ -27,10 +32,19 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Gets the alldata.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<User> GetAlldata()
         {
             return this.userRL.GetAlldata();
         }
+        /// <summary>
+        /// Users the login.
+        /// </summary>
+        /// <param name="user1">The user1.</param>
+        /// <returns></returns>
         public LoginResponse UserLogin(UserLogin user1)
         {
             try
@@ -42,6 +56,11 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Sends the reset link.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
         public bool SendResetLink(string email)
         {
             try
@@ -53,9 +72,14 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="resetPassword">The reset password.</param>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
         public bool ResetPassword(ResetPassword resetPassword)
         {
-
             try
             {
                 bool result = this.userRL.ResetPassword(resetPassword);

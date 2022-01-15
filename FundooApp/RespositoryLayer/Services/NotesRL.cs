@@ -346,5 +346,26 @@ namespace RespositoryLayer.Services
                 throw;
             }
         }
+
+        public bool EditNotes(NewNotesModel model ,long NotesId)
+        {
+            try
+            {
+                var note = this.context.NotesTable.Where(x => x.NotesId == NotesId).SingleOrDefault();
+                if (note != null)
+                {
+                    note.Title = model.Title;
+                    note.Message=model.Message;
+                    this.context.Update(note);
+                    this.context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

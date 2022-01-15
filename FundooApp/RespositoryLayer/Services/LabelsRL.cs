@@ -1,4 +1,6 @@
-﻿using FundooApp.Controllers;
+﻿using CommonLayer.Model;
+using FundooApp.Controllers;
+using Microsoft.EntityFrameworkCore;
 using RespositoryLayer.Context;
 using RespositoryLayer.Entity;
 using RespositoryLayer.Interfaces;
@@ -85,25 +87,19 @@ namespace RespositoryLayer.Services
                 throw ;
             }
         }
-        public bool EditLabel(long labelId, LabelModel model)
+         public bool UpdateLabel(LabelModel1 model,long labelId)
         {
             try
             {
-                var info = this.context.LabelsTable.Where(x => x.LableId == labelId).FirstOrDefault();
-                if (info != null)
+                var lables = this.context.LabelsTable.Where(x => x.LableId == labelId).SingleOrDefault();
+                if (lables != null)
                 {
-
-                    info.Label = model.Label;
-                    this.context.Update(info);
-                    this.context.SaveChanges();
+                   lables.Label=model.Label;
+                    this.context.Update(lables);
+                     this.context.SaveChanges();
                     return true;
-
                 }
-                else
-                {
-                    return false;
-                }
-
+                return false;
             }
             catch (Exception)
             {

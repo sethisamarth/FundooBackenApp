@@ -15,7 +15,12 @@ namespace BusinessLayer.Services
         {
             this.collaboratorRL = collaboratorRL;
         }
-
+        /// <summary>
+        /// Adds the collaborator.
+        /// </summary>
+        /// <param name="collaborators">The collaborators.</param>
+        /// <param name="Id">The identifier.</param>
+        /// <returns></returns>
         public bool AddCollaborator(CollaboratorModel collaborators, long Id)
         {
             try
@@ -26,8 +31,12 @@ namespace BusinessLayer.Services
             {
                 throw;
             }
-
         }
+        /// <summary>
+        /// Deletes the collaborator.
+        /// </summary>
+        /// <param name="collaboratorId">The collaborator identifier.</param>
+        /// <returns></returns>
         public bool DeleteCollaborator(long collaboratorId)
         {
             try
@@ -39,7 +48,10 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
+        /// <summary>
+        /// Gets all collaborator.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Collaborator> GetAllCollaborator()
         {
             try
